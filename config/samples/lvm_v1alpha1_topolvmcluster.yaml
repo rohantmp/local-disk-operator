@@ -1,0 +1,6 @@
+apiVersion: lvm.openshift.io/v1alpha1
+kind: TopoLVMCluster
+metadata:
+  name: topolvmcluster-sample
+spec:
+  # Add fields here
