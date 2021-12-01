@@ -1,6 +1,42 @@
+---
+# this could match all nodes
 apiVersion: lvm.openshift.io/v1alpha1
 kind: TopoLVMCluster
 metadata:
   name: topolvmcluster-sample
-spec:
-  # Add fields here
+spec: 
+  deviceClasses:
+    - name: vg1
+    - deviceSelector:
+      - minSize: 10Gi
+
+# more advanced, supported later
+---
+apiVersion: lvm.openshift.io/v1alpha1
+kind: TopoLVMCluster
+metadata:
+  name: topolvmcluster-sample
+spec: 
+  deviceClasses:
+    - name: vg2
+    - deviceSelector:
+      - types:
+        - disk
+        - part
+      - vendor:
+        - samsung
+        - hpe
+      - deviceMechanicalProperies:
+        - NonRotational
+      - maxMatchesPerNode: 2
+    - nodeSelector: 
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - compute-0
+          - compute-1
+          - compute-3
+    - config:
+        lvm: 
+          thinProvision: true
